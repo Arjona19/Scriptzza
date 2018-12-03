@@ -124,7 +124,9 @@ public class MiVentaController implements Initializable {
         cbo_sexo.getItems().add("Hombre");
         cbo_sexo.getItems().add("Mujer");
         
-        
+         cbo_ingrediente.setDisable(true);
+            cbo_pizza.setDisable(true);
+            btnAddIng.setDisable(true);
        
        for(int i = 1 ; i < 5 ; i++) idListeViewCarrito.getItems().add("Item " + i);
         
