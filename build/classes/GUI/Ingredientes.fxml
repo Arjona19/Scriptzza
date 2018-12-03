@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DAL.IngredientesController">
+   <children>
+      <JFXTextField fx:id="txt_ID" focusColor="#fe824f" layoutX="24.0" layoutY="27.0" prefHeight="32.0" prefWidth="71.0" promptText="ID" unFocusColor="#572715" />
+      <JFXTextField fx:id="txt_NombreIngrediente" focusColor="#fe824f" layoutX="121.0" layoutY="27.0" prefHeight="32.0" prefWidth="224.0" promptText="Nombre del ingrediente" unFocusColor="#572715" />
+      <JFXButton fx:id="btnAgregar" buttonType="RAISED" layoutX="24.0" layoutY="78.0" onAction="#Agregar" prefHeight="44.0" prefWidth="155.0" style="-fx-background-color: #FE824F;" text="Agregar" textFill="WHITE" />
+      <JFXButton fx:id="btnModificar" buttonType="RAISED" layoutX="190.0" layoutY="78.0" onAction="#Modificar" prefHeight="44.0" prefWidth="155.0" style="-fx-background-color: #FE824F;" text="Modificar" textFill="WHITE" />
+      <JFXButton fx:id="btnEliminar" buttonType="RAISED" layoutX="354.0" layoutY="78.0" onAction="#Eliminar" prefHeight="44.0" prefWidth="155.0" style="-fx-background-color: #FE824F;" text="Eliminar" textFill="WHITE" />
+      <JFXButton fx:id="btnCancelar" buttonType="RAISED" layoutX="526.0" layoutY="78.0" onAction="#Cancelar" prefHeight="44.0" prefWidth="155.0" style="-fx-background-color: #FE824F;" text="Cancelar" textFill="WHITE" />
+      <FlowPane layoutX="14.0" layoutY="129.0" prefHeight="437.0" prefWidth="862.0">
+         <children>
+            <JFXTreeTableView fx:id="tabla" prefWidth="750.0" />
+         </children>
+      </FlowPane>
+   </children>
+</AnchorPane>

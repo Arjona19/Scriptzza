@@ -1,0 +1,14 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2/12/2018, 07:47:40 PM
+    Author     : Santiago
+*/
+
+.jfx-list-cell:selected{
+        -fx-background-color:#FE824F;
+    
+}

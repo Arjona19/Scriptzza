@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import de.jensd.fx.glyphs.materialicons.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DAL.MiVentaController">
+   <children>
+      <JFXTextField fx:id="txtNombre" focusColor="#fe824f" layoutX="35.0" layoutY="71.0" prefHeight="33.0" prefWidth="126.0" promptText="Nombre" unFocusColor="#572715" />
+      <JFXTextField fx:id="txtCelular" focusColor="#fe824f" layoutX="176.0" layoutY="71.0" prefHeight="33.0" prefWidth="180.0" promptText="Celular" unFocusColor="#572715" />
+      <JFXTextField fx:id="txtEstado" focusColor="#fe824f" layoutX="581.0" layoutY="71.0" prefHeight="33.0" prefWidth="267.0" promptText="Estado" unFocusColor="#572715" />
+      <JFXTextField fx:id="txtCiudad" focusColor="#fe824f" layoutX="34.0" layoutY="120.0" prefHeight="33.0" prefWidth="226.0" promptText="Ciudad" unFocusColor="#572715" />
+      <JFXComboBox fx:id="cbo_sexo" focusColor="#fe824f" layoutX="382.0" layoutY="71.0" prefHeight="33.0" prefWidth="174.0" promptText="Sexo" unFocusColor="#572715" />
+      <JFXTextField fx:id="txtDireccion" focusColor="#fe824f" layoutX="278.0" layoutY="120.0" prefHeight="33.0" prefWidth="571.0" promptText="Direccion" unFocusColor="#572715" />
+      <JFXComboBox fx:id="cbo_pizza" focusColor="#fe824f" layoutX="22.0" layoutY="268.0" prefHeight="33.0" prefWidth="333.0" promptText="Seleccionar pizza" unFocusColor="#572715" />
+      <Label layoutX="32.0" layoutY="27.0" text="Datos del comprador" textFill="#572715">
+         <font>
+            <Font name="SF New Republic Bold" size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="193.0" text="Datos de la venta" textFill="#572715">
+         <font>
+            <Font name="SF New Republic Bold" size="23.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnHacerVenta" buttonType="RAISED" layoutX="537.0" layoutY="510.0" onAction="#HacerVenta" prefHeight="33.0" prefWidth="138.0" style="-fx-background-color: #FE824F;" text="Hacer venta" textFill="WHITE" />
+      <JFXButton fx:id="btnLimpComp" buttonType="RAISED" layoutX="668.0" layoutY="163.0" onAction="#LimpiarDatosComprador" prefHeight="26.0" prefWidth="180.0" style="-fx-background-color: #FE824F;" text="Limpiar datos del comprador" textFill="WHITE" />
+      <JFXButton fx:id="btnLimpiarTodo" buttonType="RAISED" layoutX="695.0" layoutY="510.0" onAction="#LimpiarTddo" prefHeight="33.0" prefWidth="160.0" style="-fx-background-color: #FE824F;" text="Cancelar" textFill="WHITE" />
+      <Label layoutX="27.0" layoutY="503.0" text="Total: $" textFill="#572715">
+         <font>
+            <Font name="SF New Republic Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTotal" layoutX="161.0" layoutY="503.0" text="0.0" textFill="#572715">
+         <font>
+            <Font name="SF New Republic Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="446.0" text="Concepto:" textFill="#572715">
+         <font>
+            <Font name="SF New Republic Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblconcepto" layoutX="117.0" layoutY="447.0" text="pizza" textFill="#572715">
+         <font>
+            <Font name="SF New Republic Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="27.0" layoutY="473.0" text="Cantidad:" textFill="#572715">
+         <font>
+            <Font name="SF New Republic Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCantidad" layoutX="115.0" layoutY="474.0" text="1" textFill="#572715">
+         <font>
+            <Font name="SF New Republic Bold" size="16.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnAgregarCarrito" buttonType="RAISED" layoutX="24.0" layoutY="390.0" onAction="#AgregarCarrito" prefHeight="33.0" prefWidth="153.0" style="-fx-background-color: #FE824F;" text="Agregar al carrito" textFill="WHITE">
+         <graphic>
+            <MaterialIconView fill="WHITE" glyphName="ADD_SHOPPING_CART" size="20.0" />
+         </graphic></JFXButton>
+      <JFXButton fx:id="btnLimpiarDatosVenta" buttonType="RAISED" layoutX="192.0" layoutY="390.0" onAction="#LimpiarDatosVenta" prefHeight="33.0" prefWidth="106.0" style="-fx-background-color: #FE824F;" text="Limpiar" textFill="WHITE" />
+      <JFXComboBox fx:id="cbo_ingrediente" focusColor="#fe824f" layoutX="25.0" layoutY="307.0" prefHeight="33.0" prefWidth="267.0" promptText="Ingrediente" unFocusColor="#572715" />
+      <JFXListView fx:id="idListeViewCarrito" depth="1" fixedCellSize="0.0" layoutX="599.0" layoutY="242.0" prefHeight="249.0" prefWidth="267.0" showTooltip="true" style="-jfx-expanded: true;" stylesheets="@../res/List.css" verticalGap="10.0">
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding></JFXListView>
+      <MaterialIconView fill="#fe824f" glyphName="SHOPPING_CART" layoutX="718.0" layoutY="236.0" size="30.0" />
+      <MaterialIconView fill="#fe824f" glyphName="LOCAL_PIZZA" layoutX="465.0" layoutY="236.0" size="30.0" />
+      <JFXListView fx:id="idListViewIngredientes" depth="1" fixedCellSize="0.0" layoutX="373.0" layoutY="240.0" prefHeight="249.0" prefWidth="213.0" showTooltip="true" style="-jfx-expanded: true;" stylesheets="@../res/List.css" verticalGap="10.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="373.0" AnchorPane.rightAnchor="294.0" AnchorPane.topAnchor="240.0">
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding></JFXListView>
+      <JFXButton fx:id="btnAddIng" buttonType="RAISED" layoutX="307.0" layoutY="307.0" onAction="#AgregarIngrediente" prefHeight="33.0" prefWidth="20.0" style="-fx-background-color: #FE824F;" text="." textFill="WHITE">
+         <graphic>
+            <MaterialIconView fill="WHITE" glyphName="ADD" size="20.0" />
+         </graphic>
+      </JFXButton>
+      <ImageView fitHeight="73.0" fitWidth="83.0" layoutX="136.0" layoutY="307.0" pickOnBounds="true" preserveRatio="true" />
+      <JFXRadioButton fx:id="rbt_Armar" layoutX="35.0" layoutY="234.0" onAction="#changeArmar" style="-jfx-selected-color: #FE824F;" text="Armar pizza">
+         <toggleGroup>
+            <ToggleGroup fx:id="grupoRadio" />
+         </toggleGroup>
+      </JFXRadioButton>
+      <JFXRadioButton fx:id="rbtn_Paquete" layoutX="178.0" layoutY="234.0" onAction="#changePaquete" style="-jfx-selected-color: #FE824F;" text="Paquete" toggleGroup="$grupoRadio" />
+   </children>
+</AnchorPane>

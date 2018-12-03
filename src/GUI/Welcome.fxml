@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.materialicons.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="258.0" prefWidth="230.0" style="-fx-background-color: #F9F5EC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DAL.WelcomeController">
+   <children>
+      <MaterialIconView fill="#fe824f" glyphName="PERSON_OUTLINE" layoutX="63.0" layoutY="135.0" size="100" />
+      <Label layoutX="57.0" layoutY="139.0" text="Bienvenid@" textFill="#572816">
+         <font>
+            <Font name="SF New Republic Bold" size="21.0" />
+         </font>
+      </Label>
+      <Label fx:id="Lbl_user" layoutX="35.0" layoutY="182.0" textFill="#572816">
+         <font>
+            <Font name="SF New Republic Bold" size="22.0" />
+         </font>
+      </Label>
+      <JFXSpinner layoutX="99.0" layoutY="222.0" prefHeight="25.0" prefWidth="30.0" />
+   </children>
+</AnchorPane>
