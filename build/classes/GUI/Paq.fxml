@@ -7,9 +7,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="DAL.PaqController">
+<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.PaqController">
    <children>
-      <JFXButton layoutX="180.0" layoutY="149.0" />
+      <JFXTextField fx:id="txt_Nombre" focusColor="#fe824f" layoutX="24.0" layoutY="81.0" prefHeight="33.0" prefWidth="294.0" promptText="Nombre del paquete" />
+      <JFXComboBox fx:id="cbo_Ing1" layoutX="21.0" layoutY="128.0" prefHeight="25.0" prefWidth="133.0" promptText="ingrediente 1" />
+      <JFXComboBox fx:id="cbo_Ing2" focusColor="#fe824f" layoutX="165.0" layoutY="128.0" prefHeight="25.0" prefWidth="153.0" promptText="ingrediente 2" />
+      <JFXComboBox fx:id="cbo_Ing3" focusColor="#fe824f" layoutX="332.0" layoutY="128.0" prefHeight="25.0" prefWidth="153.0" promptText="ingrediente 3" />
+      <JFXComboBox fx:id="cbo_Beb" focusColor="#fe824f" layoutX="496.0" layoutY="128.0" prefHeight="25.0" prefWidth="153.0" promptText="Bebida" />
+      <JFXComboBox fx:id="cbo_Dip" focusColor="#fe824f" layoutX="669.0" layoutY="128.0" prefHeight="25.0" prefWidth="183.0" promptText="Dips" />
+      <JFXButton fx:id="btn_A" buttonType="RAISED" layoutX="21.0" layoutY="167.0" onAction="#Agr_1" prefHeight="40.0" prefWidth="133.0" style="-fx-background-color: #FE824F;" text="Agregar" textFill="WHITE" />
+      <JFXButton fx:id="btn_M" buttonType="RAISED" layoutX="165.0" layoutY="167.0" onAction="#Mod_1" prefHeight="40.0" prefWidth="133.0" style="-fx-background-color: #FE824F;" text="Modificar" textFill="WHITE" />
+      <JFXButton fx:id="btn_E" buttonType="RAISED" layoutX="307.0" layoutY="167.0" onAction="#Eli_1" prefHeight="40.0" prefWidth="133.0" style="-fx-background-color: #FE824F;" text="Eliminar" textFill="WHITE" />
+      <JFXButton fx:id="btn_C" buttonType="RAISED" layoutX="452.0" layoutY="167.0" onAction="#Can_1" prefHeight="40.0" prefWidth="133.0" style="-fx-background-color: #FE824F;" text="Cancelar" textFill="WHITE" />
+    <FlowPane layoutX="21.0" layoutY="173.0" prefHeight="392.0" prefWidth="853.0">
+         <children>
+            <JFXTreeTableView fx:id="tabla" prefHeight="392.0" prefWidth="853.0" />
+         </children>
+      </FlowPane>
    </children>
 </AnchorPane>

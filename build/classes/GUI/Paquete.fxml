@@ -14,8 +14,11 @@
       <JFXComboBox fx:id="cbo_Ing3" focusColor="#fe824f" layoutX="346.0" layoutY="89.0" prefHeight="25.0" prefWidth="170.0" promptText="Ingrediente 3" unFocusColor="#572715" />
       <JFXComboBox fx:id="cbo_Bebida" focusColor="#fe824f" layoutX="534.0" layoutY="89.0" prefHeight="25.0" prefWidth="153.0" promptText="Bebida" unFocusColor="#572715" />
       <JFXComboBox fx:id="cbo_Dip" focusColor="#fe824f" layoutX="706.0" layoutY="89.0" prefHeight="25.0" prefWidth="153.0" promptText="Dip" unFocusColor="#572715" />
-      <Label fx:id="lblID" layoutX="21.0" layoutY="32.0" prefHeight="17.0" prefWidth="61.0" visible="false" />
       <JFXTextField fx:id="txt_NombrePa" focusColor="#fe824f" layoutX="21.0" layoutY="52.0" prefHeight="25.0" prefWidth="307.0" promptText="Nombre del paquete" unFocusColor="#572715" />
+        <JFXButton fx:id="btnAgregar" buttonType="RAISED" layoutX="21.0" layoutY="167.0" onAction="#Agregar" prefHeight="40.0" prefWidth="133.0" style="-fx-background-color: #FE824F;" text="Agregar" textFill="WHITE" />
+      <JFXButton fx:id="btnModificar" buttonType="RAISED" layoutX="165.0" layoutY="167.0" onAction="#Modificar" prefHeight="40.0" prefWidth="133.0" style="-fx-background-color: #FE824F;" text="Modificar" textFill="WHITE" />
+      <JFXButton fx:id="btnEliminar" buttonType="RAISED" layoutX="307.0" layoutY="167.0" onAction="#Eliminar" prefHeight="40.0" prefWidth="133.0" style="-fx-background-color: #FE824F;" text="Eliminar" textFill="WHITE" />
+      <JFXButton fx:id="btnCancelar" buttonType="RAISED" layoutX="452.0" layoutY="167.0" onAction="#Cancelar" prefHeight="40.0" prefWidth="133.0" style="-fx-background-color: #FE824F;" text="Cancelar" textFill="WHITE" />
       <FlowPane layoutX="21.0" layoutY="173.0" prefHeight="392.0" prefWidth="853.0">
          <children>
             <JFXTreeTableView fx:id="tabla" prefHeight="392.0" prefWidth="853.0" />

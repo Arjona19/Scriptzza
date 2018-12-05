@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DAL;
+package GUI;
 
 import BL.Paquete;
+
+import DAL.conexion;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
@@ -15,6 +17,7 @@ import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,164 +42,190 @@ import javafx.util.Callback;
  *
  * @author Santiago
  */
-public class PaqueteController implements Initializable {
+public class PaqController implements Initializable {
  conexion objConexion = new conexion();
  Paquete p = new Paquete();
  ResultSet data;
     /**
      * Initializes the controller class.
      */
-     @FXML
+    @FXML
+    private JFXComboBox<String> cbo_Ing1;
+
+    @FXML
     private JFXComboBox<String> cbo_Dip;
 
     @FXML
-    private JFXTextField txt_NombrePa;
+    private JFXComboBox<String> cbo_Ing2;
 
     @FXML
-    private JFXComboBox<String> cbo_In1;
+    private JFXButton btn_M;
 
     @FXML
-    private JFXComboBox<String> cbo_In2;
+    private JFXTextField txt_Nombre;
 
     @FXML
-    private JFXButton btnEliminar;
+    private JFXButton btn_A;
 
     @FXML
-    private JFXButton btnModficar;
+    private JFXButton btn_E;
 
     @FXML
-    private JFXButton btnCancelar;
+    private JFXButton btn_C;
 
     @FXML
-    private JFXTreeTableView<Paquetess> tabla;
-
-    @FXML
-    private JFXButton btnAgregar;
+    private JFXComboBox<String> cbo_Beb;
 
     @FXML
     private JFXComboBox<String> cbo_Ing3;
-
+        @FXML
+    private Label LblID;
     @FXML
-    private JFXComboBox<String> cbo_Bebida;
-//    @FXML
-//    private Label lblID;
+    private JFXTreeTableView<Paqu> tabla;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
      try {
-          btnAgregar.setDisable(true);
-        btnModficar.setDisable(false);
-        btnEliminar.setDisable(false);
-        btnCancelar.setDisable(false);
-       // CargarInformacion();
+          btn_A.setDisable(true);
+        btn_M.setDisable(false);
+        btn_E.setDisable(false);
+        btn_C.setDisable(false);
+        CargarInformacion();
          Load();
      } catch (SQLException ex) {
-         Logger.getLogger(PaqueteController.class.getName()).log(Level.SEVERE, null, ex);
+         Logger.getLogger(PaqController.class.getName()).log(Level.SEVERE, null, ex);
      }
          tabla.setOnMouseClicked((event) -> {
              
-        btnAgregar.setDisable(true);
-        btnModficar.setDisable(false);
-        btnEliminar.setDisable(false);
-        btnCancelar.setDisable(false);
+        btn_A.setDisable(true);
+        btn_M.setDisable(false);
+        btn_E.setDisable(false);
+        btn_C.setDisable(false);
         
-        txt_NombrePa.setText(tabla.getSelectionModel().getSelectedItem().getValue().pizza_paq.getValueSafe());
-        cbo_In1.getSelectionModel().select(tabla.getSelectionModel().getSelectedItem().getValue().ingrediente1.getValueSafe());
-        cbo_In2.getSelectionModel().select(tabla.getSelectionModel().getSelectedItem().getValue().ingrediente2.getValueSafe());
+        txt_Nombre.setText(tabla.getSelectionModel().getSelectedItem().getValue().pizza_paq.getValueSafe());
+        cbo_Ing1.getSelectionModel().select(tabla.getSelectionModel().getSelectedItem().getValue().ingrediente1.getValueSafe());
+        cbo_Ing2.getSelectionModel().select(tabla.getSelectionModel().getSelectedItem().getValue().ingrediente2.getValueSafe());
         cbo_Ing3.getSelectionModel().select(tabla.getSelectionModel().getSelectedItem().getValue().ingrediente3.getValueSafe());
-       cbo_Bebida.getSelectionModel().select(tabla.getSelectionModel().getSelectedItem().getValue().bebida.getValueSafe());
+       cbo_Beb.getSelectionModel().select(tabla.getSelectionModel().getSelectedItem().getValue().bebida.getValueSafe());
         cbo_Dip.getSelectionModel().select(tabla.getSelectionModel().getSelectedItem().getValue().Dip.getValueSafe());
-        //lblID.setText(tabla.getSelectionModel().getSelectedItem().getValue().ID.getValueSafe());
+       // LblID.setText(tabla.getSelectionModel().getSelectedItem().getValue().ID.getValueSafe());
         
        }); 
     }    
-    
+     @FXML
+   public void Agr_1(ActionEvent event) throws SQLException {
+        Agregar(RecolectarDatos());
+            Limpiar();
+            Load();
+    }
+
+    @FXML
+      void Mod_1(ActionEvent event) throws SQLException {
+          Modificar(RecolectarDatos());
+        Limpiar();
+        Load();
+    }
+
+    @FXML
+    void Eli_1(ActionEvent event) throws SQLException {
+        Eliminar(RecolectarDatos());
+        Limpiar();
+        Load();
+    }
+    @FXML
+   public void Can_1(ActionEvent event) {
+       btn_A.setDisable(false);
+        btn_M.setDisable(true);
+        btn_E.setDisable(true);
+        btn_C.setDisable(true);
+        Limpiar();
+    }
   
 //---------------------------------------
     public Paquete RecolectarDatos(){
-       // p.setId_paquete(lblID.getText());
-        p.setNom_pizza(txt_NombrePa.getText());
-        p.setIngrediente1(cbo_In1.getSelectionModel().getSelectedItem());
-        p.setIngrediente2(cbo_In2.getSelectionModel().getSelectedItem());
+        p.setId_paquete(LblID.getText());
+        p.setNom_pizza(txt_Nombre.getText());
+        p.setIngrediente1(cbo_Ing1.getSelectionModel().getSelectedItem());
+        p.setIngrediente2(cbo_Ing2.getSelectionModel().getSelectedItem());
         p.setIngrediente3(cbo_Ing3.getSelectionModel().getSelectedItem());
-        p.setBebida(cbo_Bebida.getSelectionModel().getSelectedItem());
+        p.setBebida(cbo_Beb.getSelectionModel().getSelectedItem());
         p.setDip(cbo_Dip.getSelectionModel().getSelectedItem());
         return p;
     }
     public void Limpiar(){
-        txt_NombrePa.setText(null);
-        cbo_In1.getSelectionModel().select("");
-        cbo_In2.getSelectionModel().select("");
+        txt_Nombre.setText(null);
+        cbo_Ing1.getSelectionModel().select("");
+        cbo_Ing2.getSelectionModel().select("");
         cbo_Ing3.getSelectionModel().select("");
-        cbo_Bebida.getSelectionModel().select("");
+        cbo_Beb.getSelectionModel().select("");
         cbo_Dip.getSelectionModel().select("");
     }
     @FXML
    public void Load() throws SQLException {
         data = objConexion.EjecutarSentenciaSQL("select * from Paquete");
-        JFXTreeTableColumn<Paquetess, String> colum1 = new JFXTreeTableColumn<>("ID");
+        JFXTreeTableColumn<Paqu, String> colum1 = new JFXTreeTableColumn<>("ID");
         colum1.setPrefWidth(150);
-        colum1.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paquetess, String>, ObservableValue<String>>() {
+        colum1.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paqu, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paquetess, String> param) {
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paqu, String> param) {
                 return param.getValue().valueProperty().get().ID;
             }
         });
-        JFXTreeTableColumn<Paquetess, String> colum2 = new JFXTreeTableColumn<>("Nombre del paquete");
+        JFXTreeTableColumn<Paqu, String> colum2 = new JFXTreeTableColumn<>("Nombre del paquete");
         colum2.setPrefWidth(150);
-        colum2.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paquetess, String>, ObservableValue<String>>() {
+        colum2.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paqu, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paquetess, String> param) {
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paqu, String> param) {
                 return param.getValue().valueProperty().get().pizza_paq;
             }
         });
         
-        JFXTreeTableColumn<Paquetess, String> colum3 = new JFXTreeTableColumn<>("Ingrediente 1");
+        JFXTreeTableColumn<Paqu, String> colum3 = new JFXTreeTableColumn<>("Ingrediente 1");
         colum2.setPrefWidth(150);
-        colum2.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paquetess, String>, ObservableValue<String>>() {
+        colum2.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paqu, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paquetess, String> param) {
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paqu, String> param) {
                 return param.getValue().valueProperty().get().ingrediente1;
             }
         });
         
-        JFXTreeTableColumn<Paquetess, String> colum4 = new JFXTreeTableColumn<>("Ingrediente 2");
+        JFXTreeTableColumn<Paqu, String> colum4 = new JFXTreeTableColumn<>("Ingrediente 2");
         colum2.setPrefWidth(150);
-        colum2.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paquetess, String>, ObservableValue<String>>() {
+        colum2.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paqu, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paquetess, String> param) {
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paqu, String> param) {
                 return param.getValue().valueProperty().get().ingrediente2;
             }
         });
-        JFXTreeTableColumn<Paquetess, String> colum5 = new JFXTreeTableColumn<>("Ingrediente 3");
+        JFXTreeTableColumn<Paqu, String> colum5 = new JFXTreeTableColumn<>("Ingrediente 3");
         colum2.setPrefWidth(150);
-        colum2.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paquetess, String>, ObservableValue<String>>() {
+        colum2.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paqu, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paquetess, String> param) {
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paqu, String> param) {
                 return param.getValue().valueProperty().get().ingrediente3;
             }
         });
-        JFXTreeTableColumn<Paquetess, String> colum6 = new JFXTreeTableColumn<>("Bebida");
+        JFXTreeTableColumn<Paqu, String> colum6 = new JFXTreeTableColumn<>("Bebida");
         colum2.setPrefWidth(150);
-        colum2.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paquetess, String>, ObservableValue<String>>() {
+        colum2.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paqu, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paquetess, String> param) {
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paqu, String> param) {
                 return param.getValue().valueProperty().get().bebida;
             }
         });
-        JFXTreeTableColumn<Paquetess, String> colum7 = new JFXTreeTableColumn<>("Dip");
+        JFXTreeTableColumn<Paqu, String> colum7 = new JFXTreeTableColumn<>("Dip");
         colum2.setPrefWidth(150);
-        colum2.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paquetess, String>, ObservableValue<String>>() {
+        colum2.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paqu, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paquetess, String> param) {
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paqu, String> param) {
                 return param.getValue().valueProperty().get().Dip;
             }
         });
-         ObservableList<Paquetess> datos = FXCollections.observableArrayList();
+         ObservableList<Paqu> datos = FXCollections.observableArrayList();
         
         while (data.next()) {
-            datos.add(new Paquetess(data.getObject("ID_p").toString(),data.getObject("pizza_paq").toString(), data.getObject("ingrediente1").toString(), data.getObject("ingrediente2").toString(), data.getObject("ingrediente3").toString(), data.getObject("bebida").toString(), data.getObject("dip").toString()));  
+            datos.add(new Paqu(data.getObject("ID_p").toString(),data.getObject("pizza_paq").toString(), data.getObject("ingrediente1").toString(), data.getObject("ingrediente2").toString(), data.getObject("ingrediente3").toString(), data.getObject("bebida").toString(), data.getObject("dip").toString()));  
         }
-        final TreeItem<Paquetess> root = new RecursiveTreeItem<Paquetess>(datos, RecursiveTreeObject::getChildren);
+        final TreeItem<Paqu> root = new RecursiveTreeItem<Paqu>(datos, RecursiveTreeObject::getChildren);
         tabla.getColumns().setAll(colum1,colum2,colum3);
         tabla.setRoot(root);
         tabla.setShowRoot(false);
@@ -209,51 +238,22 @@ public class PaqueteController implements Initializable {
         ResultSet Bebidas = objConexion.EjecutarSentenciaSQL("select * from Bebidas");
         ResultSet Dips = objConexion.EjecutarSentenciaSQL("select * from Dips");
         while(Ingredientes.next()){
-            cbo_In1.getItems().add(Ingredientes.getObject("nom_ingrediente").toString());
-            cbo_In2.getItems().add(Ingredientes.getObject("nom_ingrediente").toString());
+            cbo_Ing1.getItems().add(Ingredientes.getObject("nom_ingrediente").toString());
+            cbo_Ing2.getItems().add(Ingredientes.getObject("nom_ingrediente").toString());
             cbo_Ing3.getItems().add(Ingredientes.getObject("nom_ingrediente").toString());
             
         }
         
         while(Bebidas.next()){
-            cbo_Bebida.getItems().add(Bebidas.getObject("NombreBebida").toString());
+            cbo_Beb.getItems().add(Bebidas.getObject("NombreBebida").toString());
            
         }
         while(Dips.next()){
          cbo_Dip.getItems().add(Dips.getObject("NombreDip").toString());
         }
     }
-   @FXML
-  void Agregar(ActionEvent event) throws SQLException {
-            Agregar(RecolectarDatos());
-            Limpiar();
-            Load();
-    }
-
-   @FXML
-  void Modificar(ActionEvent event) throws SQLException {
-        Modificar(RecolectarDatos());
-        Limpiar();
-        Load();
-    }
-
-    @FXML
-   void Eliminar(ActionEvent event) throws SQLException {
-        Eliminar(RecolectarDatos());
-        Limpiar();
-        Load();
-    }
-
-    @FXML
-   void Cancelar(ActionEvent event) {
-        btnAgregar.setDisable(false);
-        btnModficar.setDisable(true);
-        btnEliminar.setDisable(true);
-        btnCancelar.setDisable(true);
-        Limpiar();
-    }
     
-    
+   
     
     
     
@@ -300,7 +300,7 @@ public class PaqueteController implements Initializable {
     }
 }
 
-class Paquetess extends RecursiveTreeObject<Paquetess> {
+class Paqu extends RecursiveTreeObject<Paqu> {
 
         StringProperty ID;
         StringProperty pizza_paq;
@@ -312,7 +312,7 @@ class Paquetess extends RecursiveTreeObject<Paquetess> {
         
         
 
-        public Paquetess(  String id,String pizza_paq, String ingrediente1,String ingrediente2,String ingrediente3,String bebida, String Dip) {
+        public Paqu(  String id,String pizza_paq, String ingrediente1,String ingrediente2,String ingrediente3,String bebida, String Dip) {
             this.ID = new SimpleStringProperty(id);
             this.pizza_paq = new SimpleStringProperty(pizza_paq);
             this.ingrediente1 = new SimpleStringProperty(ingrediente1);
