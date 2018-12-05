@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Santiago/Scriptzza/src/BL/VentaController.java</file>
-            <file>file:/C:/Users/Santiago/Scriptzza/src/BL/Login.java</file>
-            <file>file:/C:/Users/Santiago/Scriptzza/src/DAL/UsuarioControler.java</file>
-            <file>file:/C:/Users/Santiago/Scriptzza/src/GUI/Ticket.java</file>
-            <file>file:/C:/Users/Santiago/Scriptzza/src/DAL/MiVentaController.java</file>
-            <file>file:/C:/Users/Santiago/Scriptzza/src/GUI/VentanaVenta_1.java</file>
-            <file>file:/C:/Users/Santiago/Scriptzza/src/BL/CompradorController.java</file>
+            <file>file:/C:/Users/Santiago/Scriptzza/src/DAL/HomeController.java</file>
+            <file>file:/C:/Users/Santiago/Scriptzza/src/DAL/Drawer/DrawerBoxController.java</file>
+            <file>file:/C:/Users/Santiago/Scriptzza/src/GUI/Paquete.fxml</file>
+            <file>file:/C:/Users/Santiago/Scriptzza/src/DAL/ProvedoresController.java</file>
+            <file>file:/C:/Users/Santiago/Scriptzza/src/DAL/PaqueteController.java</file>
         </group>
     </open-files>
 </project-private>

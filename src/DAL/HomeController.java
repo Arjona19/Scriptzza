@@ -107,7 +107,7 @@ public class HomeController implements Initializable,ViewChangeCallback {
         try {
             switch (Button.getText()) {
             case "Control de Usuarios":
-                
+
                 break;
             case "Ingredientes":
                 AnchorPane ingrediente = FXMLLoader.load(getClass().getResource(("/GUI/ingredientes.fxml")));
@@ -118,7 +118,7 @@ public class HomeController implements Initializable,ViewChangeCallback {
                     rootContainer.getChildren().setAll(provedores);
                 break;
             case "Paquetes":
-                AnchorPane paquetes = FXMLLoader.load(getClass().getResource(("/GUI/Paquete.fxml")));
+                AnchorPane paquetes = FXMLLoader.load(getClass().getResource(("/GUI/Paq.fxml")));
                     rootContainer.getChildren().setAll(paquetes);
                 break;
              case "Ventas":

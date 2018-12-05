@@ -112,6 +112,21 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </HBox>
+            <HBox prefHeight="48.0" prefWidth="200.0">
+               <children>
+                  <JFXButton fx:id="btnDrawerPaquetes" buttonType="RAISED" onAction="#changeView" prefHeight="42.0" prefWidth="187.0" style="-fx-background-color: #F9F5EC;" text="Paquetes" textFill="#572816">
+                     <font>
+                        <Font name="SF New Republic Bold" size="14.0" />
+                     </font>
+                     <graphic>
+                        <MaterialIconView fill="#572816" glyphName="VIEW_LIST" layoutX="17.0" layoutY="22.0" size="25" translateX="-14.0" x="20.0" y="3.0" />
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="4.0" top="2.0" />
+                     </HBox.margin>
+                  </JFXButton>
+               </children>
+            </HBox>
          </children>
          <VBox.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />

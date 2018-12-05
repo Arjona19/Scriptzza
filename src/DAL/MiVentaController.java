@@ -93,8 +93,6 @@ public class MiVentaController implements Initializable {
     private Label lblCantidad;
     @FXML
     private JFXDatePicker dateSelector;
-    
-
     @FXML
     private JFXListView<String> idListViewIngredientes;
     
@@ -127,9 +125,7 @@ public class MiVentaController implements Initializable {
          cbo_ingrediente.setDisable(true);
             cbo_pizza.setDisable(true);
             btnAddIng.setDisable(true);
-       
        for(int i = 1 ; i < 5 ; i++) idListeViewCarrito.getItems().add("Item " + i);
-        
     cbo_sexo.setPromptText("Seleccionar sexo");
     }
     
@@ -204,8 +200,6 @@ public class MiVentaController implements Initializable {
        if(cont<=3){
         idListViewIngredientes.getItems().add(cbo_ingrediente.getSelectionModel().getSelectedItem());
         }
-        
-       
     }
     public Venta RecolectarDatoVenta() {
             LocalDate dat= LocalDate.now();
@@ -237,18 +231,22 @@ public class MiVentaController implements Initializable {
          
      }
      //----------------
+     
      public void Agregar(){
-         usuarioc.Agregar(RecolectarDatoUsuario());
+        usuarioc.Agregar(RecolectarDatoUsuario());
         ventac.Agregar(RecolectarDatoVenta());
         LimpiarFormularioUsuario();
         LimpiarFormularioVenta();
      }
+     
      //----------------
      //-----Metodos Design
+     
     @FXML
     void HacerVenta(ActionEvent event) {
-           GUI.VentanaVenta_1 ventan = new VentanaVenta_1();
-           ventan.setVisible(true);
+//           GUI.VentanaVenta_1 ventan = new VentanaVenta_1();
+//           ventan.setVisible(true);
+
     }
 
     @FXML
