@@ -26,10 +26,15 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -115,18 +120,32 @@ public class MiVentaController implements Initializable {
         @FXML
     private JFXButton btnAddIng;
         int cantidad=0;
+       List<String> Carrito = new ArrayList<String>();
+       conexion conn = new conexion();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ObtenerPizzas();
-        ObtenerIngredientes();
+        ObtenerIngredientes();cbo_sexo.setPromptText("Seleccionar sexo");
         cbo_sexo.getItems().add("Hombre");
         cbo_sexo.getItems().add("Mujer");
-        
-         cbo_ingrediente.setDisable(true);
+             btnAgregarCarrito.setDisable(true);
+            cbo_ingrediente.setDisable(true);
             cbo_pizza.setDisable(true);
             btnAddIng.setDisable(true);
-       for(int i = 1 ; i < 5 ; i++) idListeViewCarrito.getItems().add("Item " + i);
-    cbo_sexo.setPromptText("Seleccionar sexo");
+         cbo_pizza.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String p = cbo_pizza.getSelectionModel().getSelectedItem();
+                try {
+                    ObtenerPaquete(p);
+                    btnAgregarCarrito.setDisable(false);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MiVentaController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+     
     }
     
     public Comprador RecolectarDatoUsuario() {
@@ -143,17 +162,25 @@ public class MiVentaController implements Initializable {
         usuario.setDireccion(txtDireccion.getText());
         return usuario;
     }
-    
+    public void ObtenerPaquete(String p) throws SQLException{
+        ResultSet con =  conn.EjecutarSentenciaSQL("select pizza_paq, ingrediente1,ingrediente2,ingrediente3,bebida,dip from Paquete where pizza_paq='"+p+"'");
+                   
+                idListViewIngredientes.getItems().add(con.getObject("ingrediente1").toString());
+                idListViewIngredientes.getItems().add(con.getObject("ingrediente2").toString());
+                idListViewIngredientes.getItems().add(con.getObject("ingrediente3").toString());
+                idListViewIngredientes.getItems().add(con.getObject("bebida").toString());
+                idListViewIngredientes.getItems().add(con.getObject("dip").toString());
+        
+                
+    }
      public void ObtenerPizzas() {
-        String consulta = "select nom_pizza from pizza";
+        String consulta = "select pizza_paq from Paquete";
         ResultSet pizzas = ventac.ObtenerInformacion(consulta);
         
         try {
        
             while(pizzas.next()){
-            cbo_pizza.getItems().add(pizzas.getObject("nom_pizza").toString());
-                
-              
+            cbo_pizza.getItems().add(pizzas.getObject("pizza_paq").toString()); 
         }
          
         }
@@ -197,8 +224,11 @@ public class MiVentaController implements Initializable {
     @FXML
     void AgregarIngrediente(ActionEvent event) {
         cont++;
+        
        if(cont<=3){
+          Carrito.add(cbo_ingrediente.getSelectionModel().getSelectedItem());
         idListViewIngredientes.getItems().add(cbo_ingrediente.getSelectionModel().getSelectedItem());
+            if(cont==3){ btnAgregarCarrito.setDisable(false);}
         }
     }
     public Venta RecolectarDatoVenta() {
@@ -260,7 +290,18 @@ public class MiVentaController implements Initializable {
     }
      @FXML
     void AgregarCarrito(ActionEvent event) {
-            cantidad++;
+        cont=0;
+        if(rbtn_Paquete.isSelected()){
+            idListeViewCarrito.getItems().add("Paquete:"+cbo_pizza.getSelectionModel().getSelectedItem());
+        }else{
+            idListeViewCarrito.getItems().add("Pizza - "+"Ingredientes:"+Carrito.get(0)+","+Carrito.get(1)+","+Carrito.get(2)); 
+        }
+       Carrito.clear();
+       idListViewIngredientes.getItems().clear();
+       btnAgregarCarrito.setDisable(true);
+       cbo_ingrediente.setDisable(true);
+       cbo_pizza.setDisable(true);
+       btnAddIng.setDisable(true);
     }
 
     @FXML

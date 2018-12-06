@@ -485,7 +485,7 @@ public class VentanaVenta_1 extends javax.swing.JFrame {
           if (contador_pizzas == 1) {
             btn_venta.setEnabled(true);
         }
-          
+        
          
           //JOptionPane.showMessageDialog(null, contador_pizzas + prueba[]);
            modelo.addElement(cmb_pizza.getSelectedItem().toString() + "- Ingredientes-"+ validar_arreglo_ingredientes[0] + ", " + validar_arreglo_ingredientes[1] + ", "+ validar_arreglo_ingredientes[2] );
