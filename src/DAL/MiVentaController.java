@@ -22,6 +22,7 @@ import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,10 +42,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
 import javafx.util.converter.LocalDateStringConverter;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -135,7 +140,7 @@ public class MiVentaController implements Initializable {
     private JFXButton btnBuscar;
     @FXML
     private JFXTextField txtCelularBuscar;
-    
+    MiVentaController controller;
         @FXML
     private JFXButton btnAddIng;
         int cantidad=0;
@@ -144,11 +149,13 @@ public class MiVentaController implements Initializable {
        conexion conn = new conexion();
        ResultSet info=null;
 
+    Stage stage = new Stage();
     
-               
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        controller = this;
         try {
+            
             ObtenerPizzas();
         } catch (SQLException ex) {
             Logger.getLogger(MiVentaController.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,6 +181,7 @@ public class MiVentaController implements Initializable {
                 }
             }
         });
+         
          ToogleBuscar.selectedProperty().addListener(new ChangeListener<Boolean>(){
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -387,7 +395,7 @@ public class MiVentaController implements Initializable {
     String[] arreglo_paquetes =array.split("-");
     String[] arreglo_pizzas =array.split("-");
     @FXML
-    void HacerVenta(ActionEvent event) {
+    void HacerVenta(ActionEvent event) throws IOException {
         LocalDate dat = LocalDate.now();
 //           GUI.VentanaVenta_1 ventan = new VentanaVenta_1();
 //           ventan.setVisible(true);
@@ -410,15 +418,31 @@ public class MiVentaController implements Initializable {
         if(ToogleBuscar.isSelected()){
            
        }else{
-           
             usuarioc.Agregar(RecolectarDatoUsuario());
         }
         Precios.clear();
         Pizzas.clear();
       K =1;
        i=0;
+          MostrarTiket();
     }
-
+     
+    public void MostrarTiket() throws IOException{
+            FXMLLoader fxml = new FXMLLoader();
+             String cel = txtCelular.getText();
+            String Nom = txtNombre.getText();
+            fxml.setLocation(getClass().getResource("/GUI/Tiket.fxml")); 
+            Parent roote = fxml.load();
+            TiketController wel = fxml.<TiketController>getController(); 
+            wel.setCelular(cel);
+            wel.setNombre(Nom);
+            wel.Agregar(idListeViewCarrito);
+            wel.setTotal(lblTotal.getText());
+            Scene scene = new Scene(roote);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+    }
     @FXML
     void LimpiarDatosComprador(ActionEvent event) {
         LimpiarFormularioUsuario();
@@ -441,6 +465,7 @@ public class MiVentaController implements Initializable {
      List<String> Pizzas=new ArrayList<String>();
      @FXML
     void AgregarCarrito(ActionEvent event) {
+        
         cont=0;i=0;
          
         if(rbtn_Paquete.isSelected()){ 
