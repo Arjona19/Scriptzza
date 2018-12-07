@@ -21,6 +21,7 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -36,10 +37,17 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 import javafx.util.converter.LocalDateStringConverter;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 /**
  * FXML Controller class
  *
@@ -103,6 +111,8 @@ public class MiVentaController implements Initializable {
     
     @FXML
     private JFXListView<String> idListeViewCarrito;
+    @FXML
+    private JFXButton btnReporte;
 
     @FXML
     private JFXTextField txtEstado;
@@ -120,6 +130,7 @@ public class MiVentaController implements Initializable {
         @FXML
     private JFXButton btnAddIng;
         int cantidad=0;
+        double Total=0.0,PrecioPaquete=0.0,PrecioPizza=99;
        List<String> Carrito = new ArrayList<String>();
        conexion conn = new conexion();
 
@@ -163,14 +174,14 @@ public class MiVentaController implements Initializable {
         return usuario;
     }
     public void ObtenerPaquete(String p) throws SQLException{
-        ResultSet con =  conn.EjecutarSentenciaSQL("select pizza_paq, ingrediente1,ingrediente2,ingrediente3,bebida,dip from Paquete where pizza_paq='"+p+"'");
+        ResultSet con =  conn.EjecutarSentenciaSQL("select Precio, ingrediente1,ingrediente2,ingrediente3,bebida,dip from Paquete where pizza_paq='"+p+"'");
                    
                 idListViewIngredientes.getItems().add(con.getObject("ingrediente1").toString());
                 idListViewIngredientes.getItems().add(con.getObject("ingrediente2").toString());
                 idListViewIngredientes.getItems().add(con.getObject("ingrediente3").toString());
                 idListViewIngredientes.getItems().add(con.getObject("bebida").toString());
                 idListViewIngredientes.getItems().add(con.getObject("dip").toString());
-        
+                PrecioPaquete = Double.parseDouble(con.getObject("Precio").toString());
                 
     }
      public void ObtenerPizzas() {
@@ -203,6 +214,27 @@ public class MiVentaController implements Initializable {
             cbo_pizza.setDisable(false);
             btnAddIng.setDisable(true);
     }
+    public void ReporteVentas() 
+      {
+        try 
+        {  
+            conexion oCon = new conexion();
+            Connection con = oCon.Conectar(); 
+            JasperReport reporte = null;
+            String path = "src\\Reportes\\ReporteVenta.jasper";
+
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+            JasperPrint jprint = JasperFillManager.fillReport(reporte,null, con);
+            JasperViewer view = new JasperViewer(jprint, false);
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setVisible(true);
+        }
+        catch(Exception  e) 
+        {
+            System.out.println("No se pudo generar el reporte de ventas. " + e);
+        }
+
+    }
      public void ObtenerIngredientes() {
         String consulta = "select nom_ingrediente from ingredientes";
         ResultSet pizzas = ventac.ObtenerInformacion(consulta);
@@ -226,9 +258,19 @@ public class MiVentaController implements Initializable {
         cont++;
         
        if(cont<=3){
-          Carrito.add(cbo_ingrediente.getSelectionModel().getSelectedItem());
-        idListViewIngredientes.getItems().add(cbo_ingrediente.getSelectionModel().getSelectedItem());
-            if(cont==3){ btnAgregarCarrito.setDisable(false);}
+            Carrito.add(cbo_ingrediente.getSelectionModel().getSelectedItem());
+            idListViewIngredientes.getItems().add(cbo_ingrediente.getSelectionModel().getSelectedItem());
+            if(cont==3){ 
+                Alert mensaje = new  Alert(Alert.AlertType.WARNING);
+             mensaje.setTitle("Alerta");
+             mensaje.setHeaderText("Mas de 3 ingredientes");
+             mensaje.setContentText("Apartir de ahora se contaran como ingredientes extra, con un costo de $10.0");
+             mensaje.showAndWait();
+                btnAgregarCarrito.setDisable(false);}
+        }else if(cont>3){
+            Total =Total +10;
+            Carrito.add(cbo_ingrediente.getSelectionModel().getSelectedItem());
+            idListViewIngredientes.getItems().add(cbo_ingrediente.getSelectionModel().getSelectedItem());
         }
     }
     public Venta RecolectarDatoVenta() {
@@ -241,7 +283,6 @@ public class MiVentaController implements Initializable {
         venta.setNom_producto(cbo_pizza.getSelectionModel().getSelectedItem());
        // venta.setCantidad();
         venta.setTotal(cantidad);
-        
         return venta;
     }
     
@@ -271,12 +312,17 @@ public class MiVentaController implements Initializable {
      
      //----------------
      //-----Metodos Design
-     
+      @FXML
+    void SacarReporte(ActionEvent event) {
+          ReporteVentas();
+    }
     @FXML
     void HacerVenta(ActionEvent event) {
 //           GUI.VentanaVenta_1 ventan = new VentanaVenta_1();
 //           ventan.setVisible(true);
-
+        Total=0.0;
+        idListViewIngredientes.getItems().clear();
+        idListeViewCarrito.getItems().clear();
     }
 
     @FXML
@@ -288,12 +334,15 @@ public class MiVentaController implements Initializable {
     void LimpiarTddo(ActionEvent event) {
            
     }
+    
      @FXML
     void AgregarCarrito(ActionEvent event) {
         cont=0;
         if(rbtn_Paquete.isSelected()){
+            Total = Total + PrecioPaquete;
             idListeViewCarrito.getItems().add("Paquete:"+cbo_pizza.getSelectionModel().getSelectedItem());
         }else{
+            Total = Total + 99;
             idListeViewCarrito.getItems().add("Pizza - "+"Ingredientes:"+Carrito.get(0)+","+Carrito.get(1)+","+Carrito.get(2)); 
         }
        Carrito.clear();
@@ -302,6 +351,8 @@ public class MiVentaController implements Initializable {
        cbo_ingrediente.setDisable(true);
        cbo_pizza.setDisable(true);
        btnAddIng.setDisable(true);
+       String t = String.valueOf(Total);
+       lblTotal.setText(t);
     }
 
     @FXML

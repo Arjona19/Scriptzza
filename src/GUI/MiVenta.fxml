@@ -91,5 +91,6 @@
          </toggleGroup>
       </JFXRadioButton>
       <JFXRadioButton fx:id="rbtn_Paquete" layoutX="178.0" layoutY="234.0" onAction="#changePaquete" style="-jfx-selected-color: #FE824F;" text="Paquete" toggleGroup="$grupoRadio" />
+      <JFXButton fx:id="btnReporte" buttonType="RAISED" layoutX="390.0" layoutY="510.0" onAction="#SacarReporte" prefHeight="33.0" prefWidth="138.0" style="-fx-background-color: #FE824F;" text="Generar Reporte" textFill="WHITE" />
    </children>
 </AnchorPane>

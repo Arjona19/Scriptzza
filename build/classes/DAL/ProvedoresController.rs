@@ -1,2 +1,0 @@
-DAL.Prov
-DAL.ProvedoresController

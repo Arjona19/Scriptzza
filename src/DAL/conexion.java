@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
  public class conexion {
-    String CadenaConexion="C:\\Users\\Santiago\\Documents\\Tareas\\Tablas Gibran Proyecto\\Proyecto_Pizeria.db";
+    String CadenaConexion="C:\\Users\\Santiago\\Downloads\\Servidor\\Proyecto_Pizeria.db";
     Connection conn=null;
  public conexion(){ }
  public Connection Conectar(){
