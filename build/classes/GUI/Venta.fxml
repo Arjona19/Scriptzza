@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DAL.VentaController">
-    
+<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DAL.VentaController">
+   <children>
+      <DatePicker fx:id="DataPicker" layoutX="90.0" layoutY="57.0" prefHeight="30.0" prefWidth="199.0" />
+      <JFXButton fx:id="btnBuscar" buttonType="RAISED" layoutX="304.0" layoutY="51.0" onAction="#Buscar" prefHeight="36.0" prefWidth="111.0" style="-fx-background-color: #FE824F;" text="Buscar" textFill="WHITE" />
+      <JFXButton fx:id="btnGenerarReporte" buttonType="RAISED" layoutX="440.0" layoutY="51.0" onAction="#Reporte" prefHeight="36.0" prefWidth="217.0" style="-fx-background-color: #FE824F;" text="Generar Reporte" textFill="WHITE" />
+      <FlowPane layoutX="16.0" layoutY="87.0" prefHeight="469.0" prefWidth="1023.0">
+         <children>
+            <JFXTreeTableView fx:id="tabla" prefHeight="469.0" prefWidth="1023.0" />
+         </children>
+      </FlowPane>
+   </children>
 </AnchorPane>

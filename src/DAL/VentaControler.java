@@ -17,7 +17,7 @@ public class VentaControler {
      conexion objConexion = new conexion();
     
     public int Agregar(Venta ventas){
-       int ComandoEjecutado=objConexion.EjecutarComandoSQL("INSERT INTO ventas(fecha_venta, nom_comprador, nom_producto, cantidad ,total)"+
+       int ComandoEjecutado=objConexion.EjecutarComandoSQL("INSERT INTO ventas(fecha_venta, nom_comprador, num_producto, cantidad ,total)"+
                 "VALUES('"+ventas.getFecha_venta()+"','"+ventas.getNom_comprador()+"','"+ventas.getNom_producto()+"','"+ventas.getCantidad()+"','"+ventas.getTotal()+"')");
         objConexion.Desconectar();
         return ComandoEjecutado;

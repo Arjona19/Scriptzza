@@ -92,5 +92,12 @@
       </JFXRadioButton>
       <JFXRadioButton fx:id="rbtn_Paquete" layoutX="178.0" layoutY="234.0" onAction="#changePaquete" style="-jfx-selected-color: #FE824F;" text="Paquete" toggleGroup="$grupoRadio" />
       <JFXButton fx:id="btnReporte" buttonType="RAISED" layoutX="390.0" layoutY="510.0" onAction="#SacarReporte" prefHeight="33.0" prefWidth="138.0" style="-fx-background-color: #FE824F;" text="Generar Reporte" textFill="WHITE" />
+      <JFXTextField fx:id="txtCelularBuscar" focusColor="#fe824f" layoutX="643.0" layoutY="24.0" prefHeight="33.0" prefWidth="174.0" promptText="Celular" unFocusColor="#572715" />
+      <JFXToggleButton fx:id="ToogleBuscar" layoutX="507.0" layoutY="12.0" prefHeight="58.0" prefWidth="133.0" text="Buscar por:" textAlignment="RIGHT" toggleColor="#fe824f" toggleLineColor="#dd4d13" unToggleLineColor="#572715" />
+      <JFXButton fx:id="btnBuscar" buttonType="RAISED" layoutX="827.0" layoutY="30.0" onAction="#Buscar" prefHeight="28.0" prefWidth="30.0" ripplerFill="WHITE" style="-fx-background-color: #FE824F;" text="." textFill="TRANSPARENT">
+         <graphic>
+            <MaterialIconView fill="WHITE" glyphName="SEARCH" size="20.0" />
+         </graphic>
+      </JFXButton>
    </children>
 </AnchorPane>

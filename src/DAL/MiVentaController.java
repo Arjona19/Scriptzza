@@ -21,7 +21,9 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -32,6 +34,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -101,7 +105,8 @@ public class MiVentaController implements Initializable {
 
     @FXML
     private JFXTextField txtNombre;
-
+    @FXML
+    private JFXRadioButton rbtn_Buscar;
     @FXML
     private Label lblCantidad;
     @FXML
@@ -113,7 +118,8 @@ public class MiVentaController implements Initializable {
     private JFXListView<String> idListeViewCarrito;
     @FXML
     private JFXButton btnReporte;
-
+  @FXML
+    private JFXToggleButton ToogleBuscar;
     @FXML
     private JFXTextField txtEstado;
     @FXML
@@ -126,20 +132,32 @@ public class MiVentaController implements Initializable {
     private JFXRadioButton rbt_Armar;
       
     @FXML
-    private ToggleGroup grupoRadio;
+    private JFXButton btnBuscar;
+    @FXML
+    private JFXTextField txtCelularBuscar;
+    
         @FXML
     private JFXButton btnAddIng;
         int cantidad=0;
         double Total=0.0,PrecioPaquete=0.0,PrecioPizza=99;
        List<String> Carrito = new ArrayList<String>();
        conexion conn = new conexion();
+       ResultSet info=null;
 
+    
+               
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ObtenerPizzas();
+        try {
+            ObtenerPizzas();
+        } catch (SQLException ex) {
+            Logger.getLogger(MiVentaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ObtenerIngredientes();cbo_sexo.setPromptText("Seleccionar sexo");
         cbo_sexo.getItems().add("Hombre");
         cbo_sexo.getItems().add("Mujer");
+         txtCelularBuscar.setDisable(true);
+         btnBuscar.setDisable(true);
              btnAgregarCarrito.setDisable(true);
             cbo_ingrediente.setDisable(true);
             cbo_pizza.setDisable(true);
@@ -156,6 +174,33 @@ public class MiVentaController implements Initializable {
                 }
             }
         });
+         ToogleBuscar.selectedProperty().addListener(new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(ToogleBuscar.isSelected()){
+                    txtCelularBuscar.setDisable(false);
+                    btnBuscar.setDisable(false);
+                    txtNombre.setDisable(true);
+                    txtCelular.setDisable(true);
+                    txtCiudad.setDisable(true);
+                    txtEstado.setDisable(true);
+                    txtDireccion.setDisable(true);
+                    cbo_sexo.setDisable(true);
+                }else{
+                    txtNombre.setDisable(false);
+                    txtCelular.setDisable(false);
+                    txtCiudad.setDisable(false);
+                    txtEstado.setDisable(false);
+                    txtDireccion.setDisable(false);
+                    cbo_sexo.setDisable(false);
+                    txtCelularBuscar.setDisable(true);
+                    btnBuscar.setDisable(true);
+                }
+            
+            }
+             
+         
+         });
      
     }
     
@@ -174,24 +219,23 @@ public class MiVentaController implements Initializable {
         return usuario;
     }
     public void ObtenerPaquete(String p) throws SQLException{
-        ResultSet con =  conn.EjecutarSentenciaSQL("select Precio, ingrediente1,ingrediente2,ingrediente3,bebida,dip from Paquete where pizza_paq='"+p+"'");
+        info =  conn.EjecutarSentenciaSQL("select Precio, ingrediente1,ingrediente2,ingrediente3,bebida,dip from Paquete where pizza_paq='"+p+"'");
                    
-                idListViewIngredientes.getItems().add(con.getObject("ingrediente1").toString());
-                idListViewIngredientes.getItems().add(con.getObject("ingrediente2").toString());
-                idListViewIngredientes.getItems().add(con.getObject("ingrediente3").toString());
-                idListViewIngredientes.getItems().add(con.getObject("bebida").toString());
-                idListViewIngredientes.getItems().add(con.getObject("dip").toString());
-                PrecioPaquete = Double.parseDouble(con.getObject("Precio").toString());
-                
+                idListViewIngredientes.getItems().add(info.getObject("ingrediente1").toString());
+                idListViewIngredientes.getItems().add(info.getObject("ingrediente2").toString());
+                idListViewIngredientes.getItems().add(info.getObject("ingrediente3").toString());
+                idListViewIngredientes.getItems().add(info.getObject("bebida").toString());
+                idListViewIngredientes.getItems().add(info.getObject("dip").toString());
+                PrecioPaquete = Double.parseDouble(info.getObject("Precio").toString());
+          info.close();
     }
-     public void ObtenerPizzas() {
+     public void ObtenerPizzas() throws SQLException {
         String consulta = "select pizza_paq from Paquete";
-        ResultSet pizzas = ventac.ObtenerInformacion(consulta);
+        info = ventac.ObtenerInformacion(consulta);
         
         try {
-       
-            while(pizzas.next()){
-            cbo_pizza.getItems().add(pizzas.getObject("pizza_paq").toString()); 
+            while(info.next()){
+            cbo_pizza.getItems().add(info.getObject("pizza_paq").toString()); 
         }
          
         }
@@ -199,7 +243,23 @@ public class MiVentaController implements Initializable {
             System.out.println(e);
         }
         
+        info.close();
+    }
+     
+     @FXML
+    void Buscar(ActionEvent event) throws SQLException {
         
+        ResultSet set = conn.EjecutarSentenciaSQL("select * from Comprador where celular='"+txtCelularBuscar.getText()+"'");
+        while(set.next()){
+        txtNombre.setText(set.getObject("nombre").toString());
+        txtCelular.setText(set.getObject("celular").toString());
+        txtCiudad.setText(set.getObject("ciudad").toString());
+        txtDireccion.setText(set.getObject("direccion").toString());
+        cbo_sexo.getSelectionModel().select(set.getObject("sexo").toString());
+        txtEstado.setText(set.getObject("estado").toString());
+        }
+        
+        set.close();
     }
      @FXML
     void changeArmar(ActionEvent event) {
@@ -237,12 +297,12 @@ public class MiVentaController implements Initializable {
     }
      public void ObtenerIngredientes() {
         String consulta = "select nom_ingrediente from ingredientes";
-        ResultSet pizzas = ventac.ObtenerInformacion(consulta);
+        info = ventac.ObtenerInformacion(consulta);
         
         try {
        
-            while(pizzas.next()){
-            cbo_ingrediente.getItems().add(pizzas.getObject("nom_ingrediente").toString());
+            while(info.next()){
+            cbo_ingrediente.getItems().add(info.getObject("nom_ingrediente").toString());
                 
               
         }
@@ -273,6 +333,7 @@ public class MiVentaController implements Initializable {
             idListViewIngredientes.getItems().add(cbo_ingrediente.getSelectionModel().getSelectedItem());
         }
     }
+    
     public Venta RecolectarDatoVenta() {
             LocalDate dat= LocalDate.now();
 //        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -316,13 +377,46 @@ public class MiVentaController implements Initializable {
     void SacarReporte(ActionEvent event) {
           ReporteVentas();
     }
+    VentaControler compradorc = new VentaControler();
+    UsuarioControler usuc= new UsuarioControler();
+    Venta v= new Venta();
+    public String array="";
+    int contP =0,K=0; int i=0; 
+    Double[] precios=new Double[999999];
+     String [] pizzas = new String[999999];
+    String[] arreglo_paquetes =array.split("-");
+    String[] arreglo_pizzas =array.split("-");
     @FXML
     void HacerVenta(ActionEvent event) {
+        LocalDate dat = LocalDate.now();
 //           GUI.VentanaVenta_1 ventan = new VentanaVenta_1();
 //           ventan.setVisible(true);
         Total=0.0;
         idListViewIngredientes.getItems().clear();
         idListeViewCarrito.getItems().clear();
+        while(contP!=i){
+         v.setTotal(Double.valueOf(Precios.get(K)));
+                
+                v.setCantidad(1);
+                v.setFecha_venta(dat.toString());
+                v.setNom_comprador(txtNombre.getText());
+                v.setNom_producto(Pizzas.get(K));
+                contP++;
+                K++;
+                compradorc.Agregar(v);
+        
+        }
+       
+        if(ToogleBuscar.isSelected()){
+           
+       }else{
+           
+            usuarioc.Agregar(RecolectarDatoUsuario());
+        }
+        Precios.clear();
+        Pizzas.clear();
+      K =1;
+       i=0;
     }
 
     @FXML
@@ -334,20 +428,42 @@ public class MiVentaController implements Initializable {
     void LimpiarTddo(ActionEvent event) {
            
     }
+   public void VaciarArreglos(){
+       for (int j = 0; j < precios.length; j++) {
+           precios[i]=null;
+       }
+       for (int j = 0; j < pizzas.length; j++) {
+           pizzas[i]=null;
+       }
+   }
     
+     List<String> Precios= new ArrayList<String>();
+     List<String> Pizzas=new ArrayList<String>();
      @FXML
     void AgregarCarrito(ActionEvent event) {
-        cont=0;
-        if(rbtn_Paquete.isSelected()){
+        cont=0;i=0;
+         
+        if(rbtn_Paquete.isSelected()){ 
+            
+                     
             Total = Total + PrecioPaquete;
+            Precios.add(String.valueOf(PrecioPaquete));
+            Pizzas.add("Paquete:"+cbo_pizza.getSelectionModel().getSelectedItem());
             idListeViewCarrito.getItems().add("Paquete:"+cbo_pizza.getSelectionModel().getSelectedItem());
+           
         }else{
-            Total = Total + 99;
+           
+            Total = Total + 99.0;
+            Precios.add(String.valueOf(99.0));
+            Pizzas.add("Pizza - "+"Ingredientes:"+Carrito.get(0)+","+Carrito.get(1)+","+Carrito.get(2));
             idListeViewCarrito.getItems().add("Pizza - "+"Ingredientes:"+Carrito.get(0)+","+Carrito.get(1)+","+Carrito.get(2)); 
+            
         }
+       
+        i++;
        Carrito.clear();
        idListViewIngredientes.getItems().clear();
-       btnAgregarCarrito.setDisable(true);
+       btnAgregarCarrito.setDisable(false);
        cbo_ingrediente.setDisable(true);
        cbo_pizza.setDisable(true);
        btnAddIng.setDisable(true);
