@@ -38,26 +38,6 @@
       </HBox>
       <VBox prefHeight="299.0" prefWidth="196.0">
          <children>
-            <HBox prefHeight="46.0" prefWidth="196.0">
-               <children>
-                  <JFXButton fx:id="btnDrawerControlUsuarios" buttonType="RAISED" onAction="#changeView" prefHeight="42.0" prefWidth="187.0" style="-fx-background-color: #F9F5EC;" text="Control de usuarios" textFill="#572816">
-                     <HBox.margin>
-                        <Insets left="4.0" top="2.0" />
-                     </HBox.margin>
-                     <graphic>
-                        <MaterialIconView fill="#572816" glyphName="PERSON_OUTLINE" layoutX="17.0" layoutY="22.0" size="25" translateX="-4.0" x="20.0" y="3.0" />
-                     </graphic>
-                     <font>
-                        <Font name="SF New Republic Bold" size="14.0" />
-                     </font></JFXButton>
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </HBox>
             <HBox prefHeight="48.0" prefWidth="200.0">
                <children>
                   <JFXButton fx:id="btnDrawerIngredientes" buttonType="RAISED" onAction="#changeView" prefHeight="42.0" prefWidth="187.0" style="-fx-background-color: #F9F5EC;" text="Ingredientes" textFill="#572816">

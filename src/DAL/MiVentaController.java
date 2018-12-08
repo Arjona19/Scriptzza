@@ -256,7 +256,14 @@ public class MiVentaController implements Initializable {
      
      @FXML
     void Buscar(ActionEvent event) throws SQLException {
-        
+        if(txtCelularBuscar.getText().isEmpty()){
+            Alert mensaje = new  Alert(Alert.AlertType.WARNING);
+             mensaje.setTitle("Alerta");
+             mensaje.setHeaderText("Faltan datos");
+             mensaje.setContentText("Favor de llenar todos los datos correspondientes");
+             mensaje.showAndWait();
+             
+        }else{
         ResultSet set = conn.EjecutarSentenciaSQL("select * from Comprador where celular='"+txtCelularBuscar.getText()+"'");
         while(set.next()){
         txtNombre.setText(set.getObject("nombre").toString());
@@ -268,6 +275,9 @@ public class MiVentaController implements Initializable {
         }
         
         set.close();
+        
+        }
+        
     }
      @FXML
     void changeArmar(ActionEvent event) {
@@ -290,7 +300,6 @@ public class MiVentaController implements Initializable {
             Connection con = oCon.Conectar(); 
             JasperReport reporte = null;
             String path = "src\\Reportes\\ReporteVenta.jasper";
-
             reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
             JasperPrint jprint = JasperFillManager.fillReport(reporte,null, con);
             JasperViewer view = new JasperViewer(jprint, false);
@@ -366,8 +375,10 @@ public class MiVentaController implements Initializable {
      }
      
      public void LimpiarFormularioVenta() {
-         //txt_fechaventa.setDate(null);
-         //txtCantidad.setText(null);
+         idListViewIngredientes.getItems().clear();
+         idListeViewCarrito.getItems().clear();
+//         txt_fechaventa.setDate(null);
+//         txtCantidad.setText(null);
          
      }
      //----------------
@@ -396,12 +407,14 @@ public class MiVentaController implements Initializable {
     String[] arreglo_pizzas =array.split("-");
     @FXML
     void HacerVenta(ActionEvent event) throws IOException {
-        LocalDate dat = LocalDate.now();
-//           GUI.VentanaVenta_1 ventan = new VentanaVenta_1();
-//           ventan.setVisible(true);
+        
+        
+        if(validarInfo()){
+             LocalDate dat = LocalDate.now();
+
         Total=0.0;
         idListViewIngredientes.getItems().clear();
-        idListeViewCarrito.getItems().clear();
+        idListeViewCarrito.getItems();
         while(contP!=i){
          v.setTotal(Double.valueOf(Precios.get(K)));
                 
@@ -425,6 +438,8 @@ public class MiVentaController implements Initializable {
       K =1;
        i=0;
           MostrarTiket();
+        }
+       
     }
      
     public void MostrarTiket() throws IOException{
@@ -447,10 +462,24 @@ public class MiVentaController implements Initializable {
     void LimpiarDatosComprador(ActionEvent event) {
         LimpiarFormularioUsuario();
     }
-
+    public  boolean validarInfo(){
+        if(txtNombre.getText().isEmpty()| txtCelular.getText().isEmpty()|  txtCiudad.getText().isEmpty()| txtEstado.getText().isEmpty()| txtDireccion.getText().isEmpty()){
+            Alert mensaje = new  Alert(Alert.AlertType.WARNING);
+             mensaje.setTitle("Alerta");
+             mensaje.setHeaderText("Faltan datos");
+             mensaje.setContentText("Favor de llenar todos los datos correspondientes");
+             mensaje.showAndWait();
+             return false;
+        }else{
+        
+        return true;
+        }
+    
+    }
     @FXML
     void LimpiarTddo(ActionEvent event) {
-           
+           LimpiarFormularioUsuario();
+           LimpiarFormularioVenta();
     }
    public void VaciarArreglos(){
        for (int j = 0; j < precios.length; j++) {

@@ -36,8 +36,8 @@ public class DrawerBoxController implements Initializable {
     @FXML
     private JFXButton btnDrawerPaquetes;
 
-    @FXML
-    private JFXButton btnDrawerControlUsuarios;
+//    @FXML
+//    private JFXButton btnDrawerControlUsuarios;
 
     @FXML
     private JFXButton btnDrawerIngredientes;
@@ -57,7 +57,7 @@ public class DrawerBoxController implements Initializable {
         JFXButton btn = (JFXButton) event.getSource();
         switch (btn.getText()) {
             case "Control de Usuarios":
-                callback.updateView(btnDrawerControlUsuarios);
+                //callback.updateView(btnDrawerControlUsuarios);
                 break;
             case "Ingredientes":
                 callback.updateView(btnDrawerIngredientes);
